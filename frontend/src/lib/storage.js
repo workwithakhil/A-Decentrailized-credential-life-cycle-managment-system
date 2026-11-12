@@ -1,37 +1,19 @@
 /**
  * Off-chain storage.
  *
- * Two modes so your demo never fails because a pinning service is down:
- *   - "local"  : keeps the encrypted envelope in localStorage. Use for the demo.
- *   - "pinata" : real IPFS pinning. Set VITE_PINATA_JWT in frontend/.env
+ * The encrypted envelope is kept in this browser's localStorage, addressed by
+ * a hash of the ciphertext. Only ciphertext is stored — never the plaintext.
  *
- * Either way the ciphertext is what leaves the browser — never the plaintext.
+ * Uploading to an IPFS pinning service would need an API key, and the frontend
+ * is a public bundle, so no key lives here. Real pinning would go through a
+ * small server-side proxy that holds the key. Reading existing ipfs:// CIDs
+ * from a public gateway needs no key and still works.
  */
 
-const PINATA_JWT = import.meta.env.VITE_PINATA_JWT;
-const MODE = PINATA_JWT ? "pinata" : "local";
-
-export const storageMode = MODE;
+export const storageMode = "local";
 
 export async function putEncrypted(envelope) {
-  if (MODE === "pinata") {
-    const res = await fetch(
-      "https://api.pinata.cloud/pinning/pinJSONToIPFS",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${PINATA_JWT}`,
-        },
-        body: JSON.stringify({ pinataContent: envelope }),
-      }
-    );
-    if (!res.ok) throw new Error(`Pinata upload failed: ${res.status}`);
-    const { IpfsHash } = await res.json();
-    return `ipfs://${IpfsHash}`;
-  }
-
-  // local fallback — content-addressed by a hash of the ciphertext
+  // content-addressed by a hash of the ciphertext
   const digest = await crypto.subtle.digest(
     "SHA-256",
     new TextEncoder().encode(JSON.stringify(envelope))
@@ -52,7 +34,7 @@ export async function getEncrypted(uri) {
     if (!raw) throw new Error("Encrypted payload not found on this device.");
     return JSON.parse(raw);
   }
-  const res = await fetch(`https://gateway.pinata.cloud/ipfs/${cid}`);
+  const res = await fetch(`https://ipfs.io/ipfs/${cid}`);
   if (!res.ok) throw new Error(`IPFS fetch failed: ${res.status}`);
   return res.json();
 }

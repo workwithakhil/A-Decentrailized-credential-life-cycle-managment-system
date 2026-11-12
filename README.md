@@ -30,6 +30,14 @@ deploy the contracts (e.g. `npm run deploy:amoy`), commit those two files, and
 push. You can also override the chain at build time with `VITE_CHAIN_ID` and
 `VITE_RPC_URL`.
 
+**No keys in the frontend.** The built site is public JavaScript, so it only
+ever contains contract addresses, the chain ID and a public RPC URL. The
+deployer's private key lives only in the root `.env` (gitignored, read by
+Hardhat). `scripts/deploy.js` writes a fixed public RPC URL for the frontend
+instead of copying `AMOY_RPC_URL`, and `frontend/vite.config.js` refuses to
+build if any `VITE_` variable looks like a secret or an RPC URL carries an
+API key.
+
 ---
 
 ## What this repository contains

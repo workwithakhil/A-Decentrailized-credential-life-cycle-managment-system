@@ -66,6 +66,22 @@ async function main() {
   console.log("\nSaved addresses to  ", outFile);
 
   // Also drop them where the frontend can read them.
+  //
+  // The frontend is a PUBLIC bundle, so only key-free values go there:
+  // contract addresses, the chain ID and a public RPC URL. Never copy
+  // AMOY_RPC_URL from .env — it may contain a provider API key.
+  const PUBLIC_RPC = {
+    31337: "http://127.0.0.1:8545",
+    80002: "https://polygon-amoy.gateway.tenderly.co",
+  };
+  const frontendRpc =
+    process.env.FRONTEND_RPC_URL || PUBLIC_RPC[deployment.chainId];
+  if (!frontendRpc) {
+    throw new Error(
+      `No public RPC known for chain ${deployment.chainId}. ` +
+        "Set FRONTEND_RPC_URL to a public endpoint (no API key)."
+    );
+  }
   const feDir = path.join(__dirname, "..", "frontend", "src", "abis");
   if (fs.existsSync(feDir)) {
     fs.writeFileSync(
@@ -79,7 +95,7 @@ async function main() {
         {
           chainId: deployment.chainId,
           name: network.name,
-          rpcUrl: network.config.url || "http://127.0.0.1:8545",
+          rpcUrl: frontendRpc,
         },
         null,
         2
