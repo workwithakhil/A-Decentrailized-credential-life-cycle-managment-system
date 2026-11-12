@@ -10,6 +10,26 @@ real Poseidon; the Groth16 trusted setup is the one remaining step.
 This prototype is built specifically to close limitations identified in three
 base papers. See **GAP_CLOSURE.md** for the traceability matrix.
 
+**Live dApp:** https://workwithakhil.github.io/A-Decentrailized-credential-life-cycle-managment-system/
+
+---
+
+## Hosting
+
+The frontend is a static Vite build with hash routing, published to GitHub
+Pages by `.github/workflows/deploy.yml`. Every push to `main`:
+
+1. runs the contract test suite (`npx hardhat test`),
+2. builds `frontend/` (`npm run build`),
+3. deploys `frontend/dist` to GitHub Pages.
+
+The site reads contract addresses and the chain from
+`frontend/src/abis/addresses.json` and `frontend/src/abis/network.json`, which
+`scripts/deploy.js` writes. To point the hosted site at a new deployment,
+deploy the contracts (e.g. `npm run deploy:amoy`), commit those two files, and
+push. You can also override the chain at build time with `VITE_CHAIN_ID` and
+`VITE_RPC_URL`.
+
 ---
 
 ## What this repository contains

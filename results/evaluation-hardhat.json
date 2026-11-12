@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "network": "hardhat",
+    "chainId": 31337,
+    "runs": 50,
+    "timestamp": "2026-08-13T06:22:43.838Z"
+  },
+  "deployment": {
+    "DIDRegistry": 425990,
+    "IssuerRegistry": 638546,
+    "CredentialRegistry": 740184,
+    "VerificationRegistry": 1268294,
+    "PairwiseDIDRegistry": 383691
+  },
+  "operations": {
+    "issuance": {
+      "gas": {
+        "n": 50,
+        "min": 171946,
+        "mean": 172308.16,
+        "median": 171970,
+        "p95": 171970,
+        "max": 189058
+      },
+      "latencyMs": {
+        "n": 50,
+        "min": 2,
+        "mean": 4.52,
+        "median": 4,
+        "p95": 9,
+        "max": 28
+      }
+    },
+    "verification": {
+      "gas": {
+        "n": 50,
+        "min": 66300,
+        "mean": 67003.68,
+        "median": 66324,
+        "p95": 66324,
+        "max": 100524
+      },
+      "latencyMs": {
+        "n": 50,
+        "min": 2,
+        "mean": 8.08,
+        "median": 5,
+        "p95": 21,
+        "max": 42
+      }
+    },
+    "readOnlyCheck": {
+      "latencyMs": {
+        "n": 20,
+        "min": 1,
+        "mean": 2.8,
+        "median": 2,
+        "p95": 8,
+        "max": 8
+      },
+      "gas": 0
+    },
+    "revocation": {
+      "gas": {
+        "n": 20,
+        "min": 31252,
+        "mean": 31261,
+        "median": 31264,
+        "p95": 31264,
+        "max": 31264
+      }
+    }
+  },
+  "privacy": {
+    "totalClaims": 6,
+    "disclosedClaims": 1,
+    "disclosureRatioPct": 16.7,
+    "fullCredentialBytes": 992,
+    "presentedBytes": 339,
+    "plaintextClaimsOnChain": 0,
+    "pairwiseDistinct": true,
+    "linkPubliclyReadable": true
+  },
+  "correctness": {
+    "revocationRejectionRate": 100
+  },
+  "gapClosure": {
+    "P1_noImplementation": "CLOSED",
+    "P2_permissionedLedger": "CLOSED",
+    "P2_noRevocation": "CLOSED",
+    "P2_privacyUnimplemented": "PARTIAL",
+    "P3_noLifecycle": "CLOSED",
+    "P3_committeeDependency": "CLOSED",
+    "P3_linkAnalysis": "PARTIAL",
+    "P3_anonymityToAuthority": "NOT CLOSED"
+  }
+}
