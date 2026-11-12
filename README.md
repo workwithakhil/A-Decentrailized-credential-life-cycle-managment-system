@@ -127,7 +127,7 @@ MetaMask and add the network `http://127.0.0.1:8545`, chain ID `31337`.
 
 ```
 PRIVATE_KEY=your_test_wallet_private_key_without_0x
-AMOY_RPC_URL=https://rpc-amoy.polygon.technology
+AMOY_RPC_URL=https://polygon-amoy.gateway.tenderly.co
 POLYGONSCAN_API_KEY=optional_for_verification
 ```
 

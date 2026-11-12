@@ -3,7 +3,7 @@ require("dotenv").config();
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
 const AMOY_RPC_URL =
-  process.env.AMOY_RPC_URL || "https://rpc-amoy.polygon.technology";
+  process.env.AMOY_RPC_URL || "https://polygon-amoy.gateway.tenderly.co";
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
